@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByUser_IdUser(Long idUser);
-    List<Category> findByCategoryNameContainingIgnoreCase(String categoryName);
+    List<Category> findByUserId(Long userId);
+    List<Category> findByNameContainingIgnoreCase(String name);
+
+
 
 
 }

@@ -14,10 +14,11 @@ public interface TransactionsRepository
 
         List<Transactions> findByTransactionDateBetween(LocalDate starDate, LocalDate endDate);
 
-    @Query("SELECT t FROM Transactions t WHERE t.category.categoryName = :categoryName")
-List<Transactions> findByCategory(@Param("categoryName") String categoryName);
+        @Query("SELECT t FROM Transactions t WHERE t.category.name = :name")
+        List<Transactions> findByCategory(@Param("name") String name);
+        
 
-@Query("SELECT t.category, SUM(t.transactionAmount) FROM Transactions t GROUP BY t.category")
-List<Object[]> sumAmountGroupByCategory();
+        @Query("SELECT t.category, SUM(t.transactionAmount) FROM Transactions t GROUP BY t.category")
+        List<Object[]> sumAmountGroupByCategory();
     
 }

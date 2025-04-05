@@ -1,115 +1,90 @@
 package com.example.application.Entities;
 import java.util.List;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
 
 @Entity
 @Table(name= "Category")
 public class Category {
 
-    public enum CategoryType{
-        INCOME,
-        EXPENSE,
-        SAVINGS,
-        INVESTMENT
-}
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_category")
-    private Long idCategory;
-
+    private Long id;
+    
     @Column(nullable = false)
-    private String categoryName;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private CategoryType type;
-
-//JPA Relationship
-    //User
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    //Transactions
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private String name;
+    
+    private String description;
+    
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+    
+    @OneToMany(mappedBy = "category")
     private List<Transactions> transactions;
-
-    //Budget
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Budget> budgets;
-
-//Getter and Setters
-
-public List<Budget> getBudgets() {
-        return budgets;
+    
+    // Constructors
+    public Category() {
     }
-
-    public void setBudgets(List<Budget> budgets) {
-        this.budgets = budgets;
+    
+    public Category(String name, String description, Long userId) {
+        this.name = name;
+        this.description = description;
+        this.userId = userId;
     }
-
-public List<Transactions> getTransactions() {
+    
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    
+    public List<Transactions> getTransactions() {
         return transactions;
     }
-
+    
     public void setTransactions(List<Transactions> transactions) {
         this.transactions = transactions;
     }
-
-public User getUser() {
-        return user;
+    
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", userId=" + userId +
+                '}';
     }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public CategoryType getType() {
-        return type;
-    }
-
-    public void setType(CategoryType type) {
-        this.type = type;
-    }
-
-    @Column(nullable = false)
-    private boolean isActive = true;
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public Long getIdCategory() {
-        return idCategory;
-    }
-
-    public void setIdCategoryt(Long idCategory) {
-        this.idCategory = idCategory;
-    }
-
 }

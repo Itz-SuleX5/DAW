@@ -32,12 +32,15 @@ public class Transactions {
     @Column(nullable = false)
     private LocalDate transactionDate;
 
+    @Column(nullable = false)
+    private String transactionType;
+
 //JPA Relationship
 
     //Account
-    @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+   // @ManyToOne
+   // @JoinColumn(name = "account_id", nullable = false)
+    //private Account account;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -51,14 +54,6 @@ public class Transactions {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public double getTransactionAmount() {
@@ -101,5 +96,12 @@ public class Transactions {
         this.idTransactions = idTransactions;
     }
 
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
 
 }

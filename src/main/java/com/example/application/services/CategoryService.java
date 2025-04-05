@@ -25,8 +25,8 @@ public class CategoryService {
     }
     
     // Read by User
-    public List<Category> getCategoriesByUserId(Long idUser) {
-        return categoryRepository.findByUser_IdUser(idUser);
+    public List<Category> getCategoriesByUserId(Long userId) {
+        return categoryRepository.findByUserId(userId);
     }
     
     // Read One
@@ -35,8 +35,8 @@ public class CategoryService {
     }
     
     // Search by name
-    public List<Category> searchCategoriesByName(String categoryName) {
-        return categoryRepository.findByCategoryNameContainingIgnoreCase(categoryName);
+    public List<Category> searchCategoriesByName(String Name) {
+        return categoryRepository.findByNameContainingIgnoreCase(Name);
     }
     
     // Update

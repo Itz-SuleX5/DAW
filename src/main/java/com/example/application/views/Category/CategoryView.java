@@ -22,6 +22,7 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
 @PageTitle("Category")
@@ -34,97 +35,60 @@ public class CategoryView extends VerticalLayout {
 
     private Grid<Category> grid = new Grid<>(Category.class);
     private TextField categoryName = new TextField("Nombre de Categoría");
-    private ComboBox<Category.CategoryType> type = new ComboBox<>("Tipo");
-    private Checkbox isActive = new Checkbox("¿Activa?");
+    private TextField descriptionField = new TextField("Description");
+    private TextField userIdField = new TextField("User ID");
 
-    private Button saveButton = new Button("Guardar");
-    private Button deleteButton = new Button("Eliminar");
-    private Category selectedCategory = null;
-
+    @Autowired
     public CategoryView(CategoryService categoryService) {
         this.categoryService = categoryService;
 
-        setSizeFull();
-        configureGrid();
-        configureForm();
+        // Configure the grid
+        grid.setColumns("id", "name", "description", "userId");
+        grid.addComponentColumn(category -> createEditButton(category));
 
-        add(grid, getFormLayout());
+        // Add components
+        Button saveButton = new Button("Save", event -> saveCategory());
+        add(grid, createFormLayout(), saveButton);
+
+        // Show data in the grid
         updateGrid();
     }
 
-    private void configureGrid() {
-        grid.setColumns("idCategory", "categoryName", "type", "active");  // Eliminamos la columna del usuario
-        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-        grid.setSizeFull();
-
-        grid.asSingleSelect().addValueChangeListener(event -> {
-            selectedCategory = event.getValue();
-            if (selectedCategory != null) {
-                categoryName.setValue(selectedCategory.getCategoryName());
-                type.setValue(selectedCategory.getType());
-                isActive.setValue(selectedCategory.isActive());
-            }
-        });
-    }
-
-    private FormLayout getFormLayout() {
-        type.setItems(Category.CategoryType.values());
-        saveButton.addClickListener(e -> saveCategory());
-        deleteButton.addClickListener(e -> deleteCategory());
-
-        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-
+    private FormLayout createFormLayout() {
         FormLayout formLayout = new FormLayout();
-        formLayout.add(categoryName, type, isActive,
-                new HorizontalLayout(saveButton, deleteButton));
+        formLayout.add(categoryName, descriptionField, userIdField);
         return formLayout;
     }
 
-    private void configureForm() {
-        categoryName.setClearButtonVisible(true);
-        isActive.setValue(true);
-    }
-
     private void saveCategory() {
-        if (categoryName.isEmpty() || type.isEmpty()) {
-            Notification.show("Todos los campos son obligatorios.", 3000, Notification.Position.MIDDLE);
-            return;
-        }
+        String name = categoryName.getValue();
+        String description = descriptionField.getValue();
+        Long userId = Long.parseLong(userIdField.getValue());
 
-        if (selectedCategory == null) {
-            selectedCategory = new Category();
-        }
+        Category category = new Category(name, description, userId);
+        categoryService.saveCategory(category);
+        Notification.show("Category saved!");
 
-        selectedCategory.setCategoryName(categoryName.getValue());
-        selectedCategory.setType(type.getValue());
-        selectedCategory.setActive(isActive.getValue());
-
-        categoryService.saveCategory(selectedCategory);  // Guardamos la categoría (puede ser nueva o actualizada)
-        Notification.show("Categoría guardada.", 2000, Notification.Position.BOTTOM_START);
-        clearForm();
+        // Clear form and update grid
+        categoryName.clear();
+        descriptionField.clear();
+        userIdField.clear();
         updateGrid();
     }
 
-    private void deleteCategory() {
-        if (selectedCategory != null && selectedCategory.getIdCategory() != null) {
-            categoryService.deleteCategory(selectedCategory.getIdCategory());  // Eliminamos la categoría seleccionada
-            Notification.show("Categoría eliminada.", 2000, Notification.Position.BOTTOM_START);
-            clearForm();
-            updateGrid();
-        } else {
-            Notification.show("No se seleccionó ninguna categoría para eliminar.", 3000, Notification.Position.MIDDLE);
-        }
-    }
-
-    private void clearForm() {
-        selectedCategory = null;
-        categoryName.clear();
-        type.clear();
-        isActive.setValue(true);
-    }
-
     private void updateGrid() {
-        grid.setItems(categoryService.getAllCategories());  // Actualizamos el grid con todas las categorías
+        grid.setItems(categoryService.getAllCategories());
+    }
+
+    private Button createEditButton(Category category) {
+        Button editButton = new Button("Edit", event -> editCategory(category));
+        return editButton;
+    }
+
+    private void editCategory(Category category) {
+        // Set values in the form for editing
+        categoryName.setValue(category.getName());
+        descriptionField.setValue(category.getDescription());
+        userIdField.setValue(String.valueOf(category.getUserId()));
     }
 }

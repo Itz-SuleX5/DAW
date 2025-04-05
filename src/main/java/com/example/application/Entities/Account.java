@@ -46,8 +46,8 @@ public class Account {
     private boolean isActive = true;
 //JPA Relationships
     //Transactions
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Transactions> transactions;
+   // @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    //private List<Transactions> transactions;
 
     //User
     @ManyToOne
@@ -62,14 +62,6 @@ public User getUser() {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-public List<Transactions> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transactions> transactions) {
-        this.transactions = transactions;
     }
 
 public Long getIdAccount() {

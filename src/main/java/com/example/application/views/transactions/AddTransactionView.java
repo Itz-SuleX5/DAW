@@ -1,10 +1,7 @@
 package com.example.application.views.transactions;
 
-import com.example.application.Entities.Account;
 import com.example.application.Entities.Category;
-import com.example.application.Entities.Category.CategoryType;
 import com.example.application.Entities.Transactions;
-import com.example.application.services.AccountService;
 import com.example.application.services.CategoryService;
 import com.example.application.services.TransactionService;
 import com.vaadin.flow.component.Composite;
@@ -51,8 +48,7 @@ public class AddTransactionView extends Composite<VerticalLayout> {
 
     private final TransactionService transactionService;
     private final CategoryService categoryService;
-    private final AccountService accountService;
-    
+
     private Grid<Transactions> transactionsGrid;
     private NumberField amountField;
     private TextField businessField;
@@ -60,17 +56,15 @@ public class AddTransactionView extends Composite<VerticalLayout> {
     private Select<Category> categorySelect;
     private Select<PaymentMethod> paymentMethodSelect;
     private TextArea notesField;
-    private Select<Account> accountSelect;
+    private Select<String> transactionTypeSelect;
     
     private Binder<Transactions> binder;
     private Transactions currentTransaction;
 
 
-    public AddTransactionView(TransactionService transactionService, CategoryService categoryService, AccountService accountService) {
+    public AddTransactionView(TransactionService transactionService, CategoryService categoryService) {
         this.transactionService = transactionService;
         this.categoryService = categoryService;
-        this.accountService = accountService;
-        
         initializeView();
         setupForm();
         setupGrid();
@@ -91,11 +85,11 @@ public class AddTransactionView extends Composite<VerticalLayout> {
         paymentMethodSelect = new Select<>();
         paymentMethodSelect.setLabel("Payment Method");
         notesField = new TextArea("Notes");
-        accountSelect = new Select<>();
-        accountSelect.setLabel("Account");
-        
+        transactionTypeSelect = new Select<>();
+        transactionTypeSelect.setLabel("Type");
+        transactionTypeSelect.setItems("Income", "Expense", "Investment", "Savings");  // Usando String
         FormLayout formLayout = new FormLayout();
-        formLayout.add(businessField, amountField, datePicker, categorySelect, paymentMethodSelect, accountSelect, notesField);
+        formLayout.add(businessField, amountField, datePicker, categorySelect, paymentMethodSelect, notesField, transactionTypeSelect);
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 2)
@@ -124,20 +118,11 @@ public class AddTransactionView extends Composite<VerticalLayout> {
     
     private void setupForm() {
         // Configure Category dropdown
-        Select<Category.CategoryType> categorySelect = new Select<>();
-        categorySelect.setItemLabelGenerator(categoryType -> {
-        return switch(categoryType) {
-        case INCOME -> "Income";
-        case EXPENSE -> "Expense";
-        case SAVINGS -> "Savings";
-        case INVESTMENT -> "Investment";
-        default -> categoryType.name();
-    };
-    });
+        categorySelect.setItems(categoryService.getAllCategories());
+        categorySelect.setItemLabelGenerator(Category::getName);
 
-        // Configure Account dropdown
-        accountSelect.setItems(accountService.getAllActiveAccounts());
-        accountSelect.setItemLabelGenerator(Account::getAccountName);
+        // Opciones para el dropdown
+        transactionTypeSelect.setItems("Income", "Expense", "Investment", "Savings");
         
         // Configure Payment Method dropdown
         List<PaymentMethod> paymentMethods = new ArrayList<>();
@@ -152,9 +137,9 @@ public class AddTransactionView extends Composite<VerticalLayout> {
     private void setupGrid() {
         transactionsGrid.addColumn(Transactions::getTransactionName).setHeader("Description").setAutoWidth(true);
         transactionsGrid.addColumn(Transactions::getTransactionAmount).setHeader("Amount").setAutoWidth(true);
-        transactionsGrid.addColumn(transaction -> transaction.getCategory().getCategoryName()).setHeader("Category").setAutoWidth(true);
+        transactionsGrid.addColumn(transaction -> transaction.getCategory().getName()).setHeader("Category").setAutoWidth(true);
         transactionsGrid.addColumn(Transactions::getTransactionDate).setHeader("Date").setAutoWidth(true);
-        transactionsGrid.addColumn(transaction -> transaction.getAccount().getAccountName()).setHeader("Account").setAutoWidth(true);
+    
         
         // Add edit and delete buttons
         transactionsGrid.addComponentColumn(transaction -> {
@@ -194,10 +179,10 @@ public class AddTransactionView extends Composite<VerticalLayout> {
                 .asRequired("Category is required")
                 .bind(Transactions::getCategory, Transactions::setCategory);
         
-        //binder.forField(accountSelect)
-          //      .asRequired("Account is required")
-            //    .bind(Transactions::getAccount, Transactions::setAccount);
-        
+        binder.forField(transactionTypeSelect)
+                .asRequired("Transaction type is required")
+                .bind(Transactions::getTransactionType, Transactions::setTransactionType);
+
         binder.forField(notesField)
                 .bind(Transactions::getNotes, Transactions::setNotes);
     }
@@ -233,7 +218,6 @@ public class AddTransactionView extends Composite<VerticalLayout> {
         datePicker.setValue(LocalDate.now());
         categorySelect.clear();
         paymentMethodSelect.clear();
-        accountSelect.clear();
         notesField.clear();
     }
     
@@ -245,7 +229,6 @@ public class AddTransactionView extends Composite<VerticalLayout> {
         Dialog editDialog = new Dialog();
         editDialog.setHeaderTitle("Edit Transaction");
         
-        // Create a copy of the form for editing
         FormLayout editForm = new FormLayout();
         
         NumberField editAmount = new NumberField("Amount");
@@ -260,19 +243,19 @@ public class AddTransactionView extends Composite<VerticalLayout> {
         Select<Category> editCategory = new Select<>();
         editCategory.setLabel("Category");
         editCategory.setItems(categoryService.getAllCategories());
-        editCategory.setItemLabelGenerator(Category::getCategoryName);
+        editCategory.setItemLabelGenerator(Category::getName);
         editCategory.setValue(transaction.getCategory());
-        
-        Select<Account> editAccount = new Select<>();
-        editAccount.setLabel("Account");
-        editAccount.setItems(accountService.getAllActiveAccounts());
-        editAccount.setItemLabelGenerator(Account::getAccountName);
-        editAccount.setValue(transaction.getAccount());
         
         TextArea editNotes = new TextArea("Notes");
         editNotes.setValue(transaction.getNotes());
+
+        Select<String> edittransactionType = new Select<>();
+        edittransactionType.setLabel("Type");
+        edittransactionType.setItems("Income", "Expense", "Investment", "Savings");
+        edittransactionType.setValue(transaction.getTransactionType());
+
         
-        editForm.add(editBusiness, editAmount, editDate, editCategory, editAccount, editNotes);
+        editForm.add(editBusiness, editAmount, editDate, editCategory, editNotes, edittransactionType);
         editForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 2)
@@ -284,8 +267,8 @@ public class AddTransactionView extends Composite<VerticalLayout> {
             transaction.setTransactionName(editBusiness.getValue());
             transaction.setTransactionDate(editDate.getValue());
             transaction.setCategory(editCategory.getValue());
-            transaction.setAccount(editAccount.getValue());
             transaction.setNotes(editNotes.getValue());
+            transaction.setTransactionType(edittransactionType.getValue());
             
             // Save and close
             transactionService.saveTransaction(transaction);
