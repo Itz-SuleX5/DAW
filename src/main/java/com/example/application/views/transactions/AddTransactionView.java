@@ -75,6 +75,8 @@ public class AddTransactionView extends Composite<VerticalLayout> {
     private void initializeView() {
         VerticalLayout layoutColumn = new VerticalLayout();
         H3 h3 = new H3("Add Transaction");
+        layoutColumn.getStyle().set("background-color", "#1d2b3a");
+        layoutColumn.setPadding(true);
         
         amountField = new NumberField("Amount");
         businessField = new TextField("Business/Description");
@@ -99,15 +101,24 @@ public class AddTransactionView extends Composite<VerticalLayout> {
         Button saveButton = new Button("Save", e -> saveTransaction());
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         Button cancelButton = new Button("Cancel", e -> clearForm());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        cancelButton.setIcon(new Icon(VaadinIcon.CLOSE));
         
         buttonLayout.add(saveButton, cancelButton);
         buttonLayout.setSpacing(true);
         
-        transactionsGrid = new Grid<>(Transactions.class, false);
+        VerticalLayout formContainer = new VerticalLayout(h3, formLayout, buttonLayout);
+        formContainer.getStyle()
+            .set("box-shadow", "0 2px 10px rgba(0,0,0,0.1)")
+            .set("padding", "1.5rem")
+            .set("border-radius", "10px")
+            .set("background-color", "white")
+            .set("width", "100%");
         
+        transactionsGrid = new Grid<>(Transactions.class, false);
         layoutColumn.add(h3, formLayout, buttonLayout, transactionsGrid);
         layoutColumn.setWidth("100%");
-        layoutColumn.setMaxWidth("1200px");
+        layoutColumn.setMaxWidth("800px");
         layoutColumn.setAlignSelf(Alignment.CENTER);
         
         getContent().add(layoutColumn);
