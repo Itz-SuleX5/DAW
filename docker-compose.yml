@@ -7,23 +7,27 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_URL=jdbc:postgresql://db:5432/dbtest
-      - DB_USERNAME=${POSTGRES_USER}
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/dbtest
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
       - DB_DRIVER=org.postgresql.Driver
       - JPA_DDL_AUTO=update
+      - VAADIN_SKIP_NODE_MODULES_CLEANING=true
+    volumes:
+      - ./src:/app/src
+      - maven-repo:/root/.m2
     depends_on:
       - db
     networks:
       - app-network
-    
+
   db:
     image: postgres:14-alpine
     container_name: my-postgres
     environment:
       - POSTGRES_DB=dbtest
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     volumes:
@@ -37,4 +41,5 @@ networks:
 
 volumes:
   postgres-data:
+  maven-repo:
     

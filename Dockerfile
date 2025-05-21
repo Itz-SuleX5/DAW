@@ -1,23 +1,27 @@
-# Usar una imagen base con Maven y OpenJDK 17
-FROM maven:3.8-jdk-17 AS builder
+# Usamos una única imagen que incluya Maven y JDK
+FROM maven:3.9.6-eclipse-temurin-17
 
-# Copiar todo el código fuente de la aplicación al contenedor
-COPY . /app
-
-# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Ejecutar 'mvn clean' para limpiar el proyecto y luego 'mvn package' para compilar el proyecto
-RUN mvn clean package -DskipTests
+# Copiar todo el proyecto
+COPY . .
 
-# Usar una imagen base para ejecutar la aplicación (con solo JRE)
-FROM eclipse-temurin:17-jre
+# Crear directorios necesarios para Vaadin con permisos correctos
+RUN mkdir -p /app/frontend && \
+    mkdir -p /app/node_modules && \
+    mkdir -p /app/generated/jar-resources && \
+    chmod -R 777 /app/frontend /app/node_modules /app/generated
 
-# Copiar el JAR generado desde la etapa de construcción anterior
-COPY --from=builder /app/target/*.jar /app.jar
-
-# Exponer el puerto 8080
+# Exponer el puerto
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Variable de entorno para Vaadin
+ENV VAADIN_FRONTEND_FOLDER=/app/frontend
+ENV VAADIN_PREPAREJS=true
+ENV VAADIN_FOLDER=/app
+
+# Evitar que Vaadin intente limpiar node_modules (causa problemas de permisos)
+ENV VAADIN_SKIP_NODE_MODULES_CLEANING=true
+
+# El comando de inicio prepara frontend y luego ejecuta la aplicación
+CMD ["sh", "-c", "mvn vaadin:prepare-frontend -Dvaadin.skip.node.modules.cleaning=true && mvn spring-boot:run -Dvaadin.skip.node.modules.cleaning=true"]
