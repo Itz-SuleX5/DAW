@@ -17,14 +17,17 @@ if (!isVaadinContext) {
     const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
     
     // Usar la URL base correcta
-    const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+    const baseUrl = window.location.origin;
     const redirectUri = `${baseUrl}/dashboard`;
 
     console.log('Auth0 Configuration:', {
       domain,
       clientId,
       redirectUri,
-      currentUrl: window.location.href
+      currentUrl: window.location.href,
+      origin: window.location.origin,
+      pathname: window.location.pathname,
+      search: window.location.search
     });
 
     root.render(
@@ -39,7 +42,11 @@ if (!isVaadinContext) {
           }}
           cacheLocation="localstorage"
           onRedirectCallback={(appState) => {
-            console.log('Redirect Callback:', appState);
+            console.log('Redirect Callback:', {
+              appState,
+              currentUrl: window.location.href,
+              search: window.location.search
+            });
             // Limpiar los parámetros de la URL después de la redirección
             if (window.location.search) {
               window.history.replaceState(
@@ -65,7 +72,7 @@ if (!isVaadinContext) {
       const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
       
       // Usar la URL base correcta
-      const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+      const baseUrl = window.location.origin;
       const redirectUri = `${baseUrl}/dashboard`;
 
       root.render(
@@ -80,7 +87,11 @@ if (!isVaadinContext) {
             }}
             cacheLocation="localstorage"
             onRedirectCallback={(appState) => {
-              console.log('Redirect Callback:', appState);
+              console.log('Redirect Callback:', {
+                appState,
+                currentUrl: window.location.href,
+                search: window.location.search
+              });
               // Limpiar los parámetros de la URL después de la redirección
               if (window.location.search) {
                 window.history.replaceState(
