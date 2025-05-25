@@ -16,9 +16,7 @@ if (!isVaadinContext) {
     const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
     const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
     
-    // Usar la URL base correcta
     const baseUrl = window.location.origin;
-    const redirectUri = `${baseUrl}/dashboard`;
 
     root.render(
       <React.StrictMode>
@@ -26,11 +24,9 @@ if (!isVaadinContext) {
           domain={domain}
           clientId={clientId}
           authorizationParams={{
-            redirect_uri: redirectUri,
+            redirect_uri: baseUrl,
             audience: audience,
-            scope: "openid profile email",
-            response_type: "code",
-            response_mode: "query"
+            scope: "openid profile email"
           }}
           useRefreshTokens={true}
           cacheLocation="localstorage"
@@ -49,9 +45,7 @@ if (!isVaadinContext) {
       const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
       const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
       
-      // Usar la URL base correcta
       const baseUrl = window.location.origin;
-      const redirectUri = `${baseUrl}/dashboard`;
 
       root.render(
         <React.StrictMode>
@@ -59,11 +53,9 @@ if (!isVaadinContext) {
             domain={domain}
             clientId={clientId}
             authorizationParams={{
-              redirect_uri: redirectUri,
+              redirect_uri: baseUrl,
               audience: audience,
-              scope: "openid profile email",
-              response_type: "code",
-              response_mode: "query"
+              scope: "openid profile email"
             }}
             useRefreshTokens={true}
             cacheLocation="localstorage"
