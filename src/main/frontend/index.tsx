@@ -16,7 +16,7 @@ if (!isVaadinContext) {
     const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
     const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
     
-    const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+    const baseUrl = "https://friendly-space-guide-x5wq9w55765639qrp.github.dev";
 
     root.render(
       <React.StrictMode>
@@ -45,7 +45,7 @@ if (!isVaadinContext) {
       const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
       const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
       
-      const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+      const baseUrl = "https://friendly-space-guide-x5wq9w55765639qrp.github.dev";
 
       root.render(
         <React.StrictMode>
