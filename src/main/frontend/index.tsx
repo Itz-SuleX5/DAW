@@ -37,6 +37,14 @@ if (!isVaadinContext) {
           cacheLocation="localstorage"
           onRedirectCallback={(appState) => {
             console.log('Redirect Callback:', appState);
+            // Limpiar los parámetros de la URL después de la redirección
+            if (window.location.search) {
+              window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+              );
+            }
           }}
         >
           <App />
@@ -67,6 +75,14 @@ if (!isVaadinContext) {
             cacheLocation="localstorage"
             onRedirectCallback={(appState) => {
               console.log('Redirect Callback:', appState);
+              // Limpiar los parámetros de la URL después de la redirección
+              if (window.location.search) {
+                window.history.replaceState(
+                  {},
+                  document.title,
+                  window.location.pathname
+                );
+              }
             }}
           >
             <App />
