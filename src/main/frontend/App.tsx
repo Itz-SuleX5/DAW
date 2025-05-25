@@ -7,7 +7,14 @@ import Dashboard from './Dashboard';
 import './App.css';
 
 const App = () => {
-  const { isLoading, isAuthenticated } = useAuth0();
+  const { isLoading, isAuthenticated, error } = useAuth0();
+
+  console.log('Auth0 State:', { isLoading, isAuthenticated, error });
+
+  if (error) {
+    console.error('Auth0 Error:', error);
+    return <div>Error: {error.message}</div>;
+  }
 
   if (isLoading) {
     return <div>Cargando...</div>;
@@ -18,7 +25,7 @@ const App = () => {
       <div className="app">
         <Navbar />
         <main className="main-content">
-        <Routes>
+          <Routes>
             <Route path="/" element={<div>Página de inicio</div>} />
             <Route 
               path="/profile" 
@@ -39,7 +46,7 @@ const App = () => {
               } 
             />
             <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+          </Routes>
         </main>
       </div>
     </Router>

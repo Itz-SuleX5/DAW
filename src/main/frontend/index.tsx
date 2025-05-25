@@ -15,7 +15,14 @@ if (!isVaadinContext) {
     const domain = "dev-6a8gx4jqe8ymcodi.us.auth0.com";
     const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
     const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
-    const redirectUri = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev/dashboard";
+    const redirectUri = window.location.origin + '/dashboard';
+
+    console.log('Auth0 Configuration:', {
+      domain,
+      clientId,
+      redirectUri,
+      currentUrl: window.location.href
+    });
 
     root.render(
       <React.StrictMode>
@@ -28,6 +35,9 @@ if (!isVaadinContext) {
             scope: "openid profile email"
           }}
           cacheLocation="localstorage"
+          onRedirectCallback={(appState) => {
+            console.log('Redirect Callback:', appState);
+          }}
         >
           <App />
         </Auth0Provider>
@@ -42,7 +52,7 @@ if (!isVaadinContext) {
       const domain = "dev-6a8gx4jqe8ymcodi.us.auth0.com";
       const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
       const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
-      const redirectUri = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev/dashboard";
+      const redirectUri = window.location.origin + '/dashboard';
 
       root.render(
         <React.StrictMode>
@@ -55,6 +65,9 @@ if (!isVaadinContext) {
               scope: "openid profile email"
             }}
             cacheLocation="localstorage"
+            onRedirectCallback={(appState) => {
+              console.log('Redirect Callback:', appState);
+            }}
           >
             <App />
           </Auth0Provider>
