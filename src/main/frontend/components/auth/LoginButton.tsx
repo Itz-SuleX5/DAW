@@ -16,7 +16,8 @@ const LoginButton = () => {
           redirect_uri: `${window.location.origin}/dashboard`,
           prompt: 'login',
           response_type: 'code',
-          response_mode: 'query'
+          response_mode: 'query',
+          code_challenge_method: 'S256'
         }
       });
     } catch (err) {
