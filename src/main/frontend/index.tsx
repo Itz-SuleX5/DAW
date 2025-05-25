@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import './index.css';
-import { Auth0AppState } from './types';
 
 // Check if we're in a Vaadin context or standalone React
 const isVaadinContext = window.location.pathname.includes('/vaadin');
@@ -21,16 +20,6 @@ if (!isVaadinContext) {
     const baseUrl = window.location.origin;
     const redirectUri = `${baseUrl}/dashboard`;
 
-    console.log('Auth0 Configuration:', {
-      domain,
-      clientId,
-      redirectUri,
-      currentUrl: window.location.href,
-      origin: window.location.origin,
-      pathname: window.location.pathname,
-      search: window.location.search
-    });
-
     root.render(
       <React.StrictMode>
         <Auth0Provider
@@ -45,21 +34,6 @@ if (!isVaadinContext) {
           }}
           useRefreshTokens={true}
           cacheLocation="localstorage"
-          onRedirectCallback={(appState: Auth0AppState) => {
-            console.log('Redirect Callback:', {
-              appState,
-              currentUrl: window.location.href,
-              search: window.location.search
-            });
-            
-            // Redirigir a la ruta guardada o al dashboard
-            const returnTo = appState?.returnTo || '/dashboard';
-            window.history.replaceState(
-              {},
-              document.title,
-              returnTo
-            );
-          }}
         >
           <App />
         </Auth0Provider>
@@ -93,21 +67,6 @@ if (!isVaadinContext) {
             }}
             useRefreshTokens={true}
             cacheLocation="localstorage"
-            onRedirectCallback={(appState: Auth0AppState) => {
-              console.log('Redirect Callback:', {
-                appState,
-                currentUrl: window.location.href,
-                search: window.location.search
-              });
-              
-              // Redirigir a la ruta guardada o al dashboard
-              const returnTo = appState?.returnTo || '/dashboard';
-              window.history.replaceState(
-                {},
-                document.title,
-                returnTo
-              );
-            }}
           >
             <App />
           </Auth0Provider>
