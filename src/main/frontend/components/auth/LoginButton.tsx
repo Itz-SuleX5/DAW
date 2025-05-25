@@ -6,11 +6,15 @@ const LoginButton = () => {
 
   const handleLogin = async () => {
     try {
-      console.log('Iniciando login...');
-      const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+      console.log('Iniciando login...', {
+        currentUrl: window.location.href,
+        origin: window.location.origin
+      });
+      
       await loginWithRedirect({
         authorizationParams: {
-          redirect_uri: `${baseUrl}/dashboard`
+          redirect_uri: `${window.location.origin}/dashboard`,
+          prompt: 'login'
         }
       });
     } catch (err) {

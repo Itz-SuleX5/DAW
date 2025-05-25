@@ -40,6 +40,7 @@ if (!isVaadinContext) {
             audience: audience,
             scope: "openid profile email"
           }}
+          useRefreshTokens={true}
           cacheLocation="localstorage"
           onRedirectCallback={(appState) => {
             console.log('Redirect Callback:', {
@@ -85,6 +86,7 @@ if (!isVaadinContext) {
               audience: audience,
               scope: "openid profile email"
             }}
+            useRefreshTokens={true}
             cacheLocation="localstorage"
             onRedirectCallback={(appState) => {
               console.log('Redirect Callback:', {
