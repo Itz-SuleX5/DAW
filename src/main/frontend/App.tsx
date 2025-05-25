@@ -22,14 +22,16 @@ const AppRoutes = () => {
     return <div>Cargando...</div>;
   }
 
-  // Si estamos en la ruta /dashboard con parámetros de Auth0
-  if (location.pathname === '/dashboard' && (location.search.includes('code=') || location.search.includes('state='))) {
-    return <Dashboard />;
+  // Si no está autenticado y no está en la ruta raíz, redirigir al login
+  if (!isAuthenticated && location.pathname !== '/') {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return (
     <Routes>
-      <Route path="/" element={<div>Página de inicio</div>} />
+      <Route path="/" element={
+        isAuthenticated ? <Navigate to="/dashboard" replace /> : <div>Página de inicio</div>
+      } />
       <Route 
         path="/profile" 
         element={
@@ -41,11 +43,9 @@ const AppRoutes = () => {
       <Route 
         path="/dashboard" 
         element={
-          isAuthenticated ? (
+          <ProtectedRoute>
             <Dashboard />
-          ) : (
-            <Navigate to="/" replace />
-          )
+          </ProtectedRoute>
         } 
       />
       <Route path="*" element={<Navigate to="/" replace />} />

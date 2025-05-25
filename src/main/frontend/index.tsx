@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import './index.css';
+import { Auth0AppState } from './types';
 
 // Check if we're in a Vaadin context or standalone React
 const isVaadinContext = window.location.pathname.includes('/vaadin');
@@ -44,20 +45,20 @@ if (!isVaadinContext) {
           }}
           useRefreshTokens={true}
           cacheLocation="localstorage"
-          onRedirectCallback={(appState) => {
+          onRedirectCallback={(appState: Auth0AppState) => {
             console.log('Redirect Callback:', {
               appState,
               currentUrl: window.location.href,
               search: window.location.search
             });
-            // Limpiar los parámetros de la URL después de la redirección
-            if (window.location.search) {
-              window.history.replaceState(
-                {},
-                document.title,
-                window.location.pathname
-              );
-            }
+            
+            // Redirigir a la ruta guardada o al dashboard
+            const returnTo = appState?.returnTo || '/dashboard';
+            window.history.replaceState(
+              {},
+              document.title,
+              returnTo
+            );
           }}
         >
           <App />
@@ -92,20 +93,20 @@ if (!isVaadinContext) {
             }}
             useRefreshTokens={true}
             cacheLocation="localstorage"
-            onRedirectCallback={(appState) => {
+            onRedirectCallback={(appState: Auth0AppState) => {
               console.log('Redirect Callback:', {
                 appState,
                 currentUrl: window.location.href,
                 search: window.location.search
               });
-              // Limpiar los parámetros de la URL después de la redirección
-              if (window.location.search) {
-                window.history.replaceState(
-                  {},
-                  document.title,
-                  window.location.pathname
-                );
-              }
+              
+              // Redirigir a la ruta guardada o al dashboard
+              const returnTo = appState?.returnTo || '/dashboard';
+              window.history.replaceState(
+                {},
+                document.title,
+                returnTo
+              );
             }}
           >
             <App />
