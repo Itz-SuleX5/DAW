@@ -7,9 +7,10 @@ const LoginButton = () => {
   const handleLogin = async () => {
     try {
       console.log('Iniciando login...');
+      const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
       await loginWithRedirect({
         authorizationParams: {
-          redirect_uri: window.location.origin + '/dashboard'
+          redirect_uri: `${baseUrl}/dashboard`
         }
       });
     } catch (err) {

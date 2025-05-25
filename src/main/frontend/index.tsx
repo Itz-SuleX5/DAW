@@ -15,7 +15,10 @@ if (!isVaadinContext) {
     const domain = "dev-6a8gx4jqe8ymcodi.us.auth0.com";
     const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
     const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
-    const redirectUri = window.location.origin + '/dashboard';
+    
+    // Usar la URL base correcta
+    const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+    const redirectUri = `${baseUrl}/dashboard`;
 
     console.log('Auth0 Configuration:', {
       domain,
@@ -60,7 +63,10 @@ if (!isVaadinContext) {
       const domain = "dev-6a8gx4jqe8ymcodi.us.auth0.com";
       const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
       const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
-      const redirectUri = window.location.origin + '/dashboard';
+      
+      // Usar la URL base correcta
+      const baseUrl = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev";
+      const redirectUri = `${baseUrl}/dashboard`;
 
       root.render(
         <React.StrictMode>
