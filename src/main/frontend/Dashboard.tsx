@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import './Dashboard.css';
 import MetricCard from './components/MetricCard';
 import MonthlyChart from './components/MonthlyChart';
@@ -36,6 +37,7 @@ interface Transaction {
 }
 
 const Dashboard: React.FC = () => {
+  const { user } = useAuth0();
   const [dashboardData, setDashboardData] = useState<DashboardData>({
     totalBalance: 4580.75,
     income: 3200.00,
@@ -81,8 +83,6 @@ const Dashboard: React.FC = () => {
     }).format(amount);
   };
 
-
-
   return (
     <div className="dashboard">
       <header className="dashboard-header">
@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
           </nav>
         </div>
         <div className="header-right">
-          <span className="user-name">Alexis</span>
+          <span className="user-name">{user?.name || 'Usuario'}</span>
           <button className="logout-btn">🚪 Cerrar Sesión</button>
         </div>
       </header>
