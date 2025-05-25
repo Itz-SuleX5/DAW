@@ -7,7 +7,7 @@ const LoginButton = () => {
   const handleLogin = () => {
     loginWithRedirect({
       authorizationParams: {
-        redirect_uri: `${window.location.origin}/dashboard`
+        redirect_uri: window.location.origin + '/dashboard'
       }
     });
   };
