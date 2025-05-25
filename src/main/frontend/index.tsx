@@ -15,6 +15,7 @@ if (!isVaadinContext) {
     const domain = "dev-6a8gx4jqe8ymcodi.us.auth0.com";
     const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
     const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
+    const redirectUri = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev/dashboard";
 
     root.render(
       <React.StrictMode>
@@ -22,7 +23,7 @@ if (!isVaadinContext) {
           domain={domain}
           clientId={clientId}
           authorizationParams={{
-            redirect_uri: window.location.origin + '/dashboard',
+            redirect_uri: redirectUri,
             audience: audience,
             scope: "openid profile email"
           }}
@@ -41,6 +42,7 @@ if (!isVaadinContext) {
       const domain = "dev-6a8gx4jqe8ymcodi.us.auth0.com";
       const clientId = "LeECmGtmibebqZVG80hUoUUl7ZefIr7a";
       const audience = "https://dev-6a8gx4jqe8ymcodi.us.auth0.com/api/v2/";
+      const redirectUri = "https://obscure-space-guacamole-q7qg9q77jj7g29qjq-8080.app.github.dev/dashboard";
 
       root.render(
         <React.StrictMode>
@@ -48,7 +50,7 @@ if (!isVaadinContext) {
             domain={domain}
             clientId={clientId}
             authorizationParams={{
-              redirect_uri: window.location.origin + '/dashboard',
+              redirect_uri: redirectUri,
               audience: audience,
               scope: "openid profile email"
             }}
