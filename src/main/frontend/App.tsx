@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Navbar from './components/Navbar';
 import Profile from './components/auth/Profile';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import RoleProtectedRoute from './components/auth/RoleProtectedRoute';
+import Dashboard from './Dashboard';
 import './App.css';
 
 const App = () => {
@@ -32,9 +32,7 @@ const App = () => {
               path="/dashboard" 
               element={
                 isAuthenticated ? (
-                  <RoleProtectedRoute role="admin">
-                    <div>Dashboard (solo para administradores)</div>
-                  </RoleProtectedRoute>
+                  <Dashboard />
                 ) : (
                   <Navigate to="/" replace />
                 )

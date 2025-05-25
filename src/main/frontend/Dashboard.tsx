@@ -5,6 +5,7 @@ import MetricCard from './components/MetricCard';
 import MonthlyChart from './components/MonthlyChart';
 import ExpenseChart from './components/ExpenseChart';
 import TransactionsTable from './components/TransactionsTable';
+import LogoutButton from './components/auth/LogoutButton';
 
 interface DashboardData {
   totalBalance: number;
@@ -101,7 +102,7 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="header-right">
           <span className="user-name">{user?.name || 'Usuario'}</span>
-          <button className="logout-btn">🚪 Cerrar Sesión</button>
+          <LogoutButton />
         </div>
       </header>
 

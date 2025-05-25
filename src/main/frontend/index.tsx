@@ -22,7 +22,7 @@ if (!isVaadinContext) {
           domain={domain}
           clientId={clientId}
           authorizationParams={{
-            redirect_uri: window.location.origin,
+            redirect_uri: `${window.location.origin}/dashboard`,
             audience: audience,
             scope: "openid profile email"
           }}
@@ -48,7 +48,7 @@ if (!isVaadinContext) {
             domain={domain}
             clientId={clientId}
             authorizationParams={{
-              redirect_uri: window.location.origin,
+              redirect_uri: `${window.location.origin}/dashboard`,
               audience: audience,
               scope: "openid profile email"
             }}
