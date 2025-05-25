@@ -4,43 +4,28 @@ import Navbar from './components/Navbar';
 import Dashboard from './Dashboard';
 import './App.css';
 
-const AppRoutes = () => {
-  const { isLoading, isAuthenticated, error } = useAuth0();
-
-  if (error) {
-    console.error('Auth0 Error:', error);
-    return <div>Error: {error.message}</div>;
-  }
+function App() {
+  const { isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
     return <div>Cargando...</div>;
   }
 
-  // Si no está autenticado, redirigir al login
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-  );
-};
-
-const App = () => {
   return (
     <Router>
       <div className="app">
         <Navbar />
         <main className="main-content">
-          <AppRoutes />
+          <Routes>
+            <Route 
+              path="/*" 
+              element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} 
+            />
+          </Routes>
         </main>
       </div>
     </Router>
   );
-};
+}
 
 export default App;
