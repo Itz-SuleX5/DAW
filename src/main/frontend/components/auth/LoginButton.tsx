@@ -14,10 +14,7 @@ const LoginButton = () => {
       await loginWithRedirect({
         authorizationParams: {
           redirect_uri: `${window.location.origin}/dashboard`,
-          prompt: 'login',
-          response_type: 'code',
-          response_mode: 'query',
-          code_challenge_method: 'S256'
+          prompt: 'login'
         }
       });
     } catch (err) {

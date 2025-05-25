@@ -40,8 +40,7 @@ if (!isVaadinContext) {
             audience: audience,
             scope: "openid profile email",
             response_type: "code",
-            response_mode: "query",
-            code_challenge_method: "S256"
+            response_mode: "query"
           }}
           useRefreshTokens={true}
           cacheLocation="localstorage"
@@ -89,8 +88,7 @@ if (!isVaadinContext) {
               audience: audience,
               scope: "openid profile email",
               response_type: "code",
-              response_mode: "query",
-              code_challenge_method: "S256"
+              response_mode: "query"
             }}
             useRefreshTokens={true}
             cacheLocation="localstorage"
