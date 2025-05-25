@@ -24,7 +24,7 @@ if (!isVaadinContext) {
           domain={domain}
           clientId={clientId}
           authorizationParams={{
-            redirect_uri: baseUrl,
+            redirect_uri: `${baseUrl}/dashboard`,
             audience: audience,
             scope: "openid profile email offline_access"
           }}
@@ -53,7 +53,7 @@ if (!isVaadinContext) {
             domain={domain}
             clientId={clientId}
             authorizationParams={{
-              redirect_uri: baseUrl,
+              redirect_uri: `${baseUrl}/dashboard`,
               audience: audience,
               scope: "openid profile email offline_access"
             }}
