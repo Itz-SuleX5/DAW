@@ -4,12 +4,6 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import './index.css';
 
-declare global {
-  interface Window {
-    ReactDashboard: any; // Declara que ReactDashboard existe en el objeto window
-  }
-}
-
 // Check if we're in a Vaadin context or standalone React
 const isVaadinContext = window.location.pathname.includes('/vaadin');
 
@@ -34,7 +28,7 @@ if (!isVaadinContext) {
           }}
           cacheLocation="localstorage"
         >
-        <App />
+          <App />
         </Auth0Provider>
       </React.StrictMode>
     );
@@ -60,7 +54,7 @@ if (!isVaadinContext) {
             }}
             cacheLocation="localstorage"
           >
-          <App />
+            <App />
           </Auth0Provider>
         </React.StrictMode>
       );

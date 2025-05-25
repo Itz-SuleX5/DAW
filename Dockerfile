@@ -19,13 +19,9 @@ EXPOSE 8080
 ENV VAADIN_FRONTEND_FOLDER=/app/frontend
 ENV VAADIN_PREPAREJS=true
 ENV VAADIN_FOLDER=/app
-ENV VAADIN_PRODUCTION_MODE=false
 
 # Evitar que Vaadin intente limpiar node_modules (causa problemas de permisos)
 ENV VAADIN_SKIP_NODE_MODULES_CLEANING=true
 
-# Construir el frontend antes de iniciar
-RUN mvn clean package -DskipTests
-
-# El comando de inicio ejecuta la aplicación Spring Boot
-CMD ["mvn", "spring-boot:run"]
+# El comando de inicio prepara frontend y luego ejecuta la aplicación
+CMD ["sh", "-c", "mvn vaadin:prepare-frontend -Dvaadin.skip.node.modules.cleaning=true && mvn spring-boot:run -Dvaadin.skip.node.modules.cleaning=true"]

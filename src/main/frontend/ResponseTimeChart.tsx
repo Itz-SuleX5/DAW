@@ -23,7 +23,7 @@ const ResponseTimeChart: React.FC = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: 'top',
       },
     },
   };

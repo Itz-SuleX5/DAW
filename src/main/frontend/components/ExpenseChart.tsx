@@ -39,9 +39,8 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
                 d={`M 100 100 L ${x1} ${y1} A 80 80 0 ${largeArcFlag} 1 ${x2} ${y2} Z`}
                 fill={category.color}
                 className="pie-slice"
-              >
-                <title>{`${category.name}: ${percentage.toFixed(1)}%`}</title>
-              </path>
+                title={`${category.name}: ${percentage.toFixed(1)}%`}
+              />
             );
           })}
         </svg>
